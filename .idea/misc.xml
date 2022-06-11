@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_delete_reservation.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_discount.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_main_hall.xml" value="0.3546875" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_main_restaurant_menu.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_map_fragment.xml" value="0.3546875" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_menu.xml" value="0.1956521739130435" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_menu_restaurants.xml" value="0.3546875" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_objects_list.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_register.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_restaurant_profile.xml" value="0.18" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_update_discount.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/activity_update_review.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/fragment_restaurant_list.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/fragment_restaurant_list2.xml" value="0.17604166666666668" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/layout/fragment_user_profile.xml" value="0.18" />
+        <entry key="..\:/proyecto/Restaurant-reservation-app/app/src/main/res/menu/menu_restaurant_bottom_navigation.xml" value="0.3546875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

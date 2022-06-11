@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Book-It</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="signup">Don`t have an account? Sign up</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="test">Do you want to enjoy the best of Japanese cuisine? Choose Tele Sushi Tamaya and you will come back for more. Their chefs prepare the best quality pieces with fresh and natural ingredients. Choose from sashimi, sushi, maki, dim sum, rice, pasta, fish, seafood, meat and much more. Take a look at the menu and don`t forget about the menus, which are great value for money. Order through JUST EAT and enjoy!</string>
+    <string name="cancel">Yes</string>
+    <string name="mod">No</string>
+    <string name="modify">¿Are you sure that you want to delete this reservation?</string>
+    <string name="state">¿Are you sure that you want to update the state of the reservation?</string>
+    <string name="reviews">¡Send us your opinion!</string>
+    <string name="comentary">Comentary</string>
+    <string name="send">Send</string>
+    <string name="law">The protection of natural persons in relation to the processing of personal data is a fundamental right protected by Article 18.4 of the Spanish Constitution. Thus, our Constitution was a pioneer in the recognition of the fundamental right to the protection of personal data when it provided that "the law shall limit the use of information technology to guarantee the honour and personal and family privacy of citizens and the full exercise of their rights". It thus echoed the work developed since the end of the 1960s in the Council of Europe and the few legal provisions adopted in neighbouring countries. The Constitutional Court pointed out in its Ruling 94/1998, of 4 May, that we are dealing with a fundamental right to data protection by which the individual is guaranteed control over his data, any personal data, and over their use and destination, in order to avoid unlawful trafficking of the same or that is harmful to the dignity and rights of those affected; in this way, the right to data protection is configured as a power of the citizen to oppose the use of certain personal data for purposes other than that which justified their collection. For its part, in Ruling 292/2000, of 30 November, it is considered as an autonomous and independent right consisting of a power of disposal and control over personal data that empowers the individual to decide which of these data to provide to a third party, be it the State or a private individual, or which can be collected by this third party, and which also allows the individual to know who possesses these personal data and for what purpose, being able to oppose this possession or use.</string>
+</resources>
