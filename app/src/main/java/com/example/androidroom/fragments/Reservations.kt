@@ -124,7 +124,7 @@ class Reservations(viewM : MainMenuRestaurantViewModel, viewR : ReservationViewM
         Card(elevation = 4.dp, modifier = Modifier
             .padding(18.dp, 10.dp, 18.dp, 8.dp)
             .clickable {
-                cancelReservationDialog(retro, items.numberR)
+                cancelReservationDialog(retro, items.numberR, items.date, items.idCreatorR, items.clientsN)
             }
             ,shape = RoundedCornerShape(16.dp)
         ){
@@ -168,14 +168,14 @@ class Reservations(viewM : MainMenuRestaurantViewModel, viewR : ReservationViewM
         }
     }
 
-    private fun cancelReservationDialog(retro : Retrofit, numberR : Int){
+    private fun cancelReservationDialog(retro : Retrofit, numberR : Int, date : String, idR : Int, clientsN : Int){
         val alertDialog : AlertDialog = this.let{
             val builder = AlertDialog.Builder(context)
             builder.setMessage(R.string.modify)
             builder.apply {
                 setPositiveButton(R.string.cancel
                 ) { dialog, id ->
-                    retro.cancelReservation(numberR)
+                    retro.cancelReservation(numberR, date, idR, clientsN, context)
                     dialog.dismiss()
                 }
                 setNegativeButton(R.string.mod

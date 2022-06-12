@@ -8,10 +8,13 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.example.androidroom.CallBack7
 import com.example.androidroom.R
+import com.example.androidroom.data.Restaurants
 import com.example.androidroom.databinding.ActivityReservationBinding
 import com.example.androidroom.fragments.DatePicker
 import com.example.androidroom.sharedpref.SharedPreferencesManager
@@ -65,11 +68,15 @@ class Reservation : AppCompatActivity(), AdapterView.OnItemSelectedListener, Dat
             val idC = sharedPreferencesManager.getIdC(this)
             val idR = intent.getIntExtra("idR", 0)
 
-            println(date)
+            val result = validation()
 
-            val retro = Retrofit(viewModel2 , viewModel, null, null)
-            retro.insertReservations(date, binding.first.text.toString(), hour, minute, binding.nclients.text.toString().toInt(), "desactivate", idC, idR, binding.nclients.text.toString().toInt(), this)
-            finish()
+            if(result){
+                val retro = Retrofit(viewModel2 , viewModel, null, null)
+                retro.insertReservations(date, binding.first.text.toString(), hour, minute, binding.nclients.text.toString().toInt(), "desactivate", idC, idR, binding.nclients.text.toString().toInt(), this@Reservation)
+                finish()
+            }else{
+                Toast.makeText(this, "fields must not be empty", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -132,5 +139,12 @@ class Reservation : AppCompatActivity(), AdapterView.OnItemSelectedListener, Dat
         date= "${dayOfMonth}/${month+1}/${year}"
         val editable: Editable = SpannableStringBuilder(date)
         binding.date.text = editable
+    }
+
+    fun validation() : Boolean{
+        if(binding.nclients.text.isNotEmpty() && binding.first.text.isNotEmpty()){
+            return true
+        }
+        return false
     }
 }

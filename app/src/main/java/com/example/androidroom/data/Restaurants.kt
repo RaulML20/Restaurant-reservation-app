@@ -12,6 +12,7 @@ data class Restaurants(
     @SerializedName("price") var price : Int,
     @SerializedName("description") var description : String,
     @SerializedName("numberT") var numberT: Int,
+    @SerializedName("numberTS") var numberTS: Int,
     @SerializedName("punctuation") var punctuation: Float,
     @SerializedName("idL") var idL : Int
 )

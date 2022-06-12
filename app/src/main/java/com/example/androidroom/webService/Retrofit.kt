@@ -36,6 +36,8 @@ import retrofit2.*
 import retrofit2.Retrofit
 import java.io.IOException
 import java.net.UnknownHostException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -59,6 +61,24 @@ class Retrofit @Inject constructor(private val viewModel: MainMenuRestaurantView
                 createReview(reserveOnline)
             }
         }, context)
+    }
+
+   fun getRestaurantsTable(callBack7: CallBack7, con : Context) {
+       CoroutineScope(Dispatchers.IO).launch {
+           try{
+               val call = getRetrofit().create(APIService::class.java).getDataFromRestaurantsTable(query4)
+               call.body()?.let { callBack7.onSuccess(it) }
+           }catch (e : UnknownHostException) {
+               e.printStackTrace()
+               printInternetError(con)
+           }catch(ioe: IOException){
+               ioe.printStackTrace()
+               printInternetError(con)
+           }catch (he: HttpException){
+               he.printStackTrace()
+               printInternetError(con)
+           }
+       }
     }
 
     fun getRestaurants2(con : Context) {
@@ -261,34 +281,114 @@ class Retrofit @Inject constructor(private val viewModel: MainMenuRestaurantView
         }
     }
 
-    fun updateReservation(numberR : Int, state : Boolean){
-        viewModelR?.deleteReservation(numberR)
-        val retrofit = getRetrofit().create(APIService::class.java)
-        val call = retrofit.updateReservation(numberR, state)
-        call?.enqueue(object : Callback<Reservations?> {
-            override fun onResponse(
-                call: Call<Reservations?>,
-                response: Response<Reservations?>
-            ) {}
-            override fun onFailure(call: Call<Reservations?>, t: Throwable) {
-                call.cancel()
-            }
-        })
+    fun updateReservation(numberR : Int, state : Boolean, date : String, clientsN: Int, con : Context, idR : Int){
+        val c = Calendar.getInstance().time
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateT = df.format(c)
+
+        if(date == dateT){
+            getRestaurantsTable(object : CallBack7 {
+                override fun onSuccess(result: List<Restaurants>) {
+                    val restaurant = result.find { it.idU == idR }
+                    val numberT = restaurant?.numberT
+                    val calculate = numberT?.plus(clientsN)
+                    if (calculate != null) {
+                        updateRestaurantTableDay(object : CallBack5 {
+                            override fun onSuccess() {
+                                viewModelR?.deleteReservation(numberR)
+                                val retrofit = getRetrofit().create(APIService::class.java)
+                                val call = retrofit.updateReservation(numberR, state)
+                                call?.enqueue(object : Callback<Reservations?> {
+                                    override fun onResponse(
+                                        call: Call<Reservations?>,
+                                        response: Response<Reservations?>
+                                    ) {}
+                                    override fun onFailure(call: Call<Reservations?>, t: Throwable) {
+                                        call.cancel()
+                                    }
+                                })
+                            }
+                        }, calculate, idR)
+                    }
+                }
+            }, con)
+        }else{
+            viewModelR?.deleteReservation(numberR)
+            val retrofit = getRetrofit().create(APIService::class.java)
+            val call = retrofit.updateReservation(numberR, state)
+            call?.enqueue(object : Callback<Reservations?> {
+                override fun onResponse(
+                    call: Call<Reservations?>,
+                    response: Response<Reservations?>
+                ) {}
+                override fun onFailure(call: Call<Reservations?>, t: Throwable) {
+                    call.cancel()
+                }
+            })
+        }
     }
 
-    fun cancelReservation(numberR : Int){
-        viewModelR?.deleteReservation(numberR)
+    fun cancelReservation(numberR : Int, date : String, idR : Int, clientsN : Int, con : Context){
+        val c = Calendar.getInstance().time
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateT = df.format(c)
+
+        if(date == dateT){
+            getRestaurantsTable(object : CallBack7 {
+                override fun onSuccess(result: List<Restaurants>) {
+                    val restaurant = result.find { it.idU ==  idR}
+                    val numberT = restaurant?.numberT
+                    val calculate = numberT?.plus(clientsN)
+
+                    if (calculate != null) {
+                        updateRestaurantTableDay(object : CallBack5 {
+                            override fun onSuccess() {
+                                viewModelR?.deleteReservation(numberR)
+                                val retrofit = getRetrofit().create(APIService::class.java)
+                                val call = retrofit.deleteReservation(numberR)
+                                call?.enqueue(object : Callback<Reservations?> {
+                                    override fun onResponse(
+                                        call: Call<Reservations?>,
+                                        response: Response<Reservations?>
+                                    ) {}
+                                    override fun onFailure(call: Call<Reservations?>, t: Throwable) {
+                                        call.cancel()
+                                    }
+                                })
+                            }
+                        }, calculate, idR)
+                    }
+                }
+            }, con)
+        }else{
+            viewModelR?.deleteReservation(numberR)
+            val retrofit = getRetrofit().create(APIService::class.java)
+            val call = retrofit.deleteReservation(numberR)
+            call?.enqueue(object : Callback<Reservations?> {
+                override fun onResponse(
+                    call: Call<Reservations?>,
+                    response: Response<Reservations?>
+                ) {}
+                override fun onFailure(call: Call<Reservations?>, t: Throwable) {
+                    call.cancel()
+                }
+            })
+        }
+    }
+
+    fun updateRestaurantTableDay(callback: CallBack5, number : Int, idR : Int){
         val retrofit = getRetrofit().create(APIService::class.java)
-        val call = retrofit.deleteReservation(numberR)
-        call?.enqueue(object : Callback<Reservations?> {
-            override fun onResponse(
-                call: Call<Reservations?>,
-                response: Response<Reservations?>
-            ) {}
-            override fun onFailure(call: Call<Reservations?>, t: Throwable) {
-                call.cancel()
-            }
-        })
+        CoroutineScope(Dispatchers.IO).launch {
+            val call2 = retrofit.updateRestaurantTable(number, idR)
+            call2?.enqueue(object : Callback<Users?> {
+                override fun onResponse(
+                    call: Call<Users?>,
+                    response: Response<Users?>
+                ) {}
+                override fun onFailure(call: Call<Users?>, t: Throwable) { call.cancel() }
+            })
+            callback.onSuccess()
+        }
     }
 
     fun updateRestaurantTable(callback: CallBack5, number : Int, idR : Int){
@@ -302,9 +402,7 @@ class Retrofit @Inject constructor(private val viewModel: MainMenuRestaurantView
                         override fun onResponse(
                             call: Call<Users?>,
                             response: Response<Users?>
-                        ) {
-                        }
-
+                        ) {}
                         override fun onFailure(call: Call<Users?>, t: Throwable) {
                             call.cancel()
                         }
@@ -316,18 +414,68 @@ class Retrofit @Inject constructor(private val viewModel: MainMenuRestaurantView
     }
 
     fun insertReservations(date : String, name : String, hour : Int, minute : Int, clientsN : Int, state : String, idC : Int, idR : Int, number : Int, con: Context){
-        updateRestaurantTable(object : CallBack5 {
-            override fun onSuccess() {
-                getRestaurantReservation(object : CallBack4 {
-                    override fun onSuccess(result: List<Reservations>) {
-                        val reserve = ReservationEntity(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+        val c = Calendar.getInstance().time
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateT = df.format(c)
 
-                        viewModelR?.insertReservation(reserve)
-                        createReservation(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+        if(date == dateT){
+            getRestaurantsTable(object : CallBack7 {
+                override fun onSuccess(result: List<Restaurants>) {
+                    val restaurant = result.find { it.idU ==  idR}
+                    val numberT = restaurant?.numberT
+                    if (numberT != null) {
+                        if(numberT >= clientsN){
+                            updateRestaurantTable(object : CallBack5 {
+                                override fun onSuccess() {
+                                    getRestaurantReservation(object : CallBack4 {
+                                        override fun onSuccess(result: List<Reservations>) {
+                                            val reserve = ReservationEntity(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+
+                                            viewModelR?.insertReservation(reserve)
+                                            createReservation(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+                                        }
+                                    }, con)
+                                }
+                            }, number, idR)
+                        }else{
+                            Handler(Looper.getMainLooper()).post {
+                                Toast.makeText(con, "Sorry, no tables available, please try another day", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
-                }, con)
-            }
-        }, number, idR)
+                }
+            }, con)
+        }else{
+            getRestaurantsTable(object : CallBack7 {
+                override fun onSuccess(result: List<Restaurants>) {
+                    val restaurant = result.find { it.idU == idR }
+                    var numberTS = restaurant!!.numberTS
+                    getRestaurantReservation(object : CallBack4 {
+                        override fun onSuccess(result: List<Reservations>) {
+                            result.forEach { reservation ->
+                                if(reservation.idR == idR && (reservation.state != "false" && reservation.state != "true") && date == reservation.date){
+                                    numberTS -= reservation.clientsN
+                                }
+                            }
+                            if(numberTS >= clientsN){
+                                getRestaurantReservation(object : CallBack4 {
+                                    override fun onSuccess(result: List<Reservations>) {
+                                        val reserve = ReservationEntity(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+
+                                        viewModelR?.insertReservation(reserve)
+                                        createReservation(result.size+1, date, name, hour, minute, clientsN, state, idC, idR)
+                                    }
+                                }, con)
+                            }else{
+                                Handler(Looper.getMainLooper()).post {
+                                    Toast.makeText(con, "Sorry, no tables available, please try another day", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }, con)
+                }
+            }, con)
+        }
     }
 
     fun getRestaurantLocation(callback : CallBack3) {
