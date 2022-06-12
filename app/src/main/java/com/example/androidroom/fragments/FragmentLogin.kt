@@ -65,8 +65,12 @@ class FragmentLogin(viewL : LoginViewModel, viewC : ClientViewModel) : Fragment(
                 if(type == "client"){
                     val int = Intent(context, Menu::class.java)
                     startActivity(int)
+                }else if(type == "restaurant"){
+                    val int = Intent(context, MenuRestaurants::class.java)
+                    startActivity(int)
                 }
             }
+
             viewModel.allRestaurants.observe(viewLifecycleOwner) { restaurant ->
                 val restaurants = restaurant.toMutableList()
                 viewModel.allClient.observe(viewLifecycleOwner) { user ->
@@ -140,7 +144,7 @@ fun LoginScreen(list : List<ClientEntity>, viewModel : LoginViewModel, context :
             }
             Button(
                 onClick = {println(list)
-                    login(text , text2, viewModel, context, list, restaurants)},
+                    login(text.trim(), text2.trim(), viewModel, context, list, restaurants)},
                 modifier = Modifier
                     .width(340.dp)
                     .padding(40.dp, 10.dp, 0.dp, 0.dp)

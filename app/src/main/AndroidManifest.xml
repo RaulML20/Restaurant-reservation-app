@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 
     <application
         android:name=".daggerHilt.HiltApplication"
@@ -19,6 +20,9 @@
         <activity
             android:name=".view.MainHall"
             android:exported="false" />
+        <receiver
+            android:process=":remote"
+            android:name=".Alarm" />
         <activity
             android:name=".fragments.MapFragment"
             android:exported="false" />

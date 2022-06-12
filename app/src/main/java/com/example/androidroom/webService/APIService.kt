@@ -17,6 +17,9 @@ interface APIService {
     suspend fun getDataFromRestaurants(@Url url:String): Response<List<Restaurants>>
 
     @GET
+    suspend fun getDataFromRestaurantsTable(@Url url:String): Response<List<Restaurants>>
+
+    @GET
     suspend fun getRestaurantLocation(@Url url:String): Response<List<Location>>
 
     @FormUrlEncoded
